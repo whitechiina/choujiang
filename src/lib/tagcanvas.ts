@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * Copyright (C) 2010-2015 Graham Breach
  *
@@ -18,9 +17,28 @@
 /**
  * TagCanvas 2.9
  * For more information, please contact <graham@goat1000.com>
+ * 
+ * Converted to TypeScript
  */
-(function() {
-	var M, K, L = Math.abs, ah = Math.sin, w = Math.cos, s = Math.max, aD = Math.min, ap = Math.ceil, F = Math.sqrt, at = Math.pow, h = {}, l = {}, m = {
+
+import type { Vector3, Matrix, TagCanvasOptions, TagCanvasInstance, Position, ImageSize } from './tagcanvas.types';
+
+// Math 函数别名
+const L = Math.abs;
+const ah = Math.sin;
+const w = Math.cos;
+const s = Math.max;
+const aD = Math.min;
+const ap = Math.ceil;
+const F = Math.sqrt;
+const at = Math.pow;
+
+// 全局变量
+const C = document;
+let M: number, K: string;
+const h: Record<string, string> = {};
+const l: Record<string, string> = {};
+const m: Record<string, string> = {
 			0: "0,",
 			1: "17,",
 			2: "34,",
@@ -43,7 +61,13 @@
 			E: "238,",
 			f: "255,",
 			F: "255,"
-	}, x, c, Q, aF, H, aG, aa, C = document, p, b = {};
+		};
+
+	// 全局变量声明
+	let x: any, c: any, Q: any, aG: any, aa: any;
+	let p: HTMLCanvasElement | null = null;
+	const b: Record<string, any[]> = {};
+
 	for (M = 0; M < 256; ++M) {
 			K = M.toString(16);
 			if (M < 16) {
@@ -51,142 +75,187 @@
 			}
 			l[K] = l[K.toUpperCase()] = M.toString() + ","
 	}
-	function ai(i) {
-			return typeof i != "undefined"
+	function ai(i: any): boolean {
+		return typeof i !== "undefined";
 	}
-	function I(i) {
-			return typeof i == "object" && i != null
+
+	function I(i: any): boolean {
+		return typeof i === "object" && i !== null;
 	}
-	function av(i, j, aH) {
-			return isNaN(i) ? aH : aD(aH, s(j, i))
+
+	function av(i: number, j: number, aH: number): number {
+		return isNaN(i) ? aH : aD(aH, s(j, i));
 	}
-	function aA() {
-			return false
+
+	function aA(): boolean {
+		return false;
 	}
-	function G() {
-			return new Date().valueOf()
+
+	function G(): number {
+		return new Date().valueOf();
 	}
-	function A(aH, aK) {
-			var j = [], aI = aH.length, aJ;
-			for (aJ = 0; aJ < aI; ++aJ) {
-					j.push(aH[aJ])
-			}
+
+	function A<T>(aH: T[], aK?: (a: T, b: T) => number): T[] {
+		const j: T[] = [];
+		const aI = aH.length;
+		let aJ: number;
+		for (aJ = 0; aJ < aI; ++aJ) {
+			j.push(aH[aJ]);
+		}
+		if (aK) {
 			j.sort(aK);
-			return j
+		}
+		return j;
 	}
-	function an(j) {
-			var aI = j.length - 1, aH, aJ;
-			while (aI) {
-					aJ = ~~(Math.random() * aI);
-					aH = j[aI];
-					j[aI] = j[aJ];
-					j[aJ] = aH;
-					--aI
+
+	function an<T>(j: T[]): void {
+		let aI = j.length - 1;
+		let aH: T;
+		let aJ: number;
+		while (aI) {
+			aJ = ~~(Math.random() * aI);
+			aH = j[aI];
+			j[aI] = j[aJ];
+			j[aJ] = aH;
+			--aI;
+		}
+	}
+	// Vector3 类
+	class Vector3Class implements Vector3 {
+		x: number;
+		y: number;
+		z: number;
+
+		constructor(x: number, y: number, z: number) {
+			this.x = x;
+			this.y = y;
+			this.z = z;
+		}
+
+		length(): number {
+			return F(this.x * this.x + this.y * this.y + this.z * this.z);
+		}
+
+		dot(v: Vector3): number {
+			return this.x * v.x + this.y * v.y + this.z * v.z;
+		}
+
+		cross(v: Vector3): Vector3 {
+			const i = this.y * v.z - this.z * v.y;
+			const aI = this.z * v.x - this.x * v.z;
+			const aH = this.x * v.y - this.y * v.x;
+			return new Vector3Class(i, aI, aH);
+		}
+
+		angle(v: Vector3): number {
+			const i = this.dot(v);
+			if (i === 0) {
+				return Math.PI / 2;
 			}
-	}
-	function ae(i, aH, j) {
-			this.x = i;
-			this.y = aH;
-			this.z = j
-	}
-	H = ae.prototype;
-	H.length = function() {
-			return F(this.x * this.x + this.y * this.y + this.z * this.z)
-	}
-	;
-	H.dot = function(i) {
-			return this.x * i.x + this.y * i.y + this.z * i.z
-	}
-	;
-	H.cross = function(j) {
-			var i = this.y * j.z - this.z * j.y
-				, aI = this.z * j.x - this.x * j.z
-				, aH = this.x * j.y - this.y * j.x;
-			return new ae(i,aI,aH)
-	}
-	;
-	H.angle = function(j) {
-			var i = this.dot(j), aH;
-			if (i == 0) {
-					return Math.PI / 2
-			}
-			aH = i / (this.length() * j.length());
+			const aH = i / (this.length() * v.length());
 			if (aH >= 1) {
-					return 0
+				return 0;
 			}
 			if (aH <= -1) {
-					return Math.PI
+				return Math.PI;
 			}
-			return Math.acos(aH)
+			return Math.acos(aH);
+		}
+
+		unit(): Vector3 {
+			const i = this.length();
+			return new Vector3Class(this.x / i, this.y / i, this.z / i);
+		}
 	}
-	;
-	H.unit = function() {
-			var i = this.length();
-			return new ae(this.x / i,this.y / i,this.z / i)
+
+	// 为了保持兼容性，保留 ae 函数
+	function ae(i: number, aH: number, j: number): Vector3 {
+		return new Vector3Class(i, aH, j);
 	}
-	;
-	function aj(aH, j) {
-			j = j * Math.PI / 180;
-			aH = aH * Math.PI / 180;
-			var i = ah(aH) * w(j)
-				, aJ = -ah(j)
-				, aI = -w(aH) * w(j);
-			return new ae(i,aJ,aI)
+	const H = Vector3Class.prototype;
+	function aj(aH: number, j: number): Vector3 {
+		const jRad = j * Math.PI / 180;
+		const aHRad = aH * Math.PI / 180;
+		const i = ah(aHRad) * w(jRad);
+		const aJ = -ah(jRad);
+		const aI = -w(aHRad) * w(jRad);
+		return new Vector3Class(i, aJ, aI);
 	}
-	function R(i) {
+	// Matrix 类
+	class MatrixClass implements Matrix {
+		[1]: { [1]: number; [2]: number; [3]: number };
+		[2]: { [1]: number; [2]: number; [3]: number };
+		[3]: { [1]: number; [2]: number; [3]: number };
+
+		constructor(i: number[]) {
 			this[1] = {
-					1: i[0],
-					2: i[1],
-					3: i[2]
+				1: i[0],
+				2: i[1],
+				3: i[2]
 			};
 			this[2] = {
-					1: i[3],
-					2: i[4],
-					3: i[5]
+				1: i[3],
+				2: i[4],
+				3: i[5]
 			};
 			this[3] = {
-					1: i[6],
-					2: i[7],
-					3: i[8]
-			}
-	}
-	aF = R.prototype;
-	R.Identity = function() {
-			return new R([1, 0, 0, 0, 1, 0, 0, 0, 1])
-	}
-	;
-	R.Rotation = function(aI, i) {
-			var j = ah(aI)
-				, aH = w(aI)
-				, aJ = 1 - aH;
-			return new R([aH + at(i.x, 2) * aJ, i.x * i.y * aJ - i.z * j, i.x * i.z * aJ + i.y * j, i.y * i.x * aJ + i.z * j, aH + at(i.y, 2) * aJ, i.y * i.z * aJ - i.x * j, i.z * i.x * aJ - i.y * j, i.z * i.y * aJ + i.x * j, aH + at(i.z, 2) * aJ])
-	}
-	;
-	aF.mul = function(aH) {
-			var aI = [], aL, aK, aJ = (aH.xform ? 1 : 0);
+				1: i[6],
+				2: i[7],
+				3: i[8]
+			};
+		}
+
+		static Identity(): Matrix {
+			return new MatrixClass([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+		}
+
+		static Rotation(aI: number, i: Vector3): Matrix {
+			const j = ah(aI);
+			const aH = w(aI);
+			const aJ = 1 - aH;
+			return new MatrixClass([
+				aH + at(i.x, 2) * aJ, i.x * i.y * aJ - i.z * j, i.x * i.z * aJ + i.y * j,
+				i.y * i.x * aJ + i.z * j, aH + at(i.y, 2) * aJ, i.y * i.z * aJ - i.x * j,
+				i.z * i.x * aJ - i.y * j, i.z * i.y * aJ + i.x * j, aH + at(i.z, 2) * aJ
+			]);
+		}
+
+		mul(aH: Matrix | number): Matrix {
+			const aI: number[] = [];
+			let aL: number, aK: number;
+			const aJ = ((aH as Matrix).xform ? 1 : 0);
 			for (aL = 1; aL <= 3; ++aL) {
-					for (aK = 1; aK <= 3; ++aK) {
-							if (aJ) {
-									aI.push(this[aL][1] * aH[1][aK] + this[aL][2] * aH[2][aK] + this[aL][3] * aH[3][aK])
-							} else {
-									aI.push(this[aL][aK] * aH)
-							}
+				for (aK = 1; aK <= 3; ++aK) {
+					if (aJ) {
+						const m = aH as Matrix;
+						aI.push(this[aL][1] * m[1][aK] + this[aL][2] * m[2][aK] + this[aL][3] * m[3][aK]);
+					} else {
+						aI.push(this[aL][aK] * (aH as number));
 					}
+				}
 			}
-			return new R(aI)
+			return new MatrixClass(aI);
+		}
+
+		xform(aH: Vector3): Vector3 {
+			const i = aH.x;
+			const aJ = aH.y;
+			const aI = aH.z;
+			return {
+				x: i * this[1][1] + aJ * this[2][1] + aI * this[3][1],
+				y: i * this[1][2] + aJ * this[2][2] + aI * this[3][2],
+				z: i * this[1][3] + aJ * this[2][3] + aI * this[3][3]
+			};
+		}
 	}
-	;
-	aF.xform = function(aH) {
-			var j = {}
-				, i = aH.x
-				, aJ = aH.y
-				, aI = aH.z;
-			j.x = i * this[1][1] + aJ * this[2][1] + aI * this[3][1];
-			j.y = i * this[1][2] + aJ * this[2][2] + aI * this[3][2];
-			j.z = i * this[1][3] + aJ * this[2][3] + aI * this[3][3];
-			return j
+
+	// 为了保持兼容性，保留 R 函数
+	function R(i: number[]): Matrix {
+		return new MatrixClass(i);
 	}
-	;
+	const aF = MatrixClass.prototype;
+	(R as any).Identity = MatrixClass.Identity;
+	(R as any).Rotation = MatrixClass.Rotation;
 	function q(aI, aK, aQ, aN, aP) {
 			var aL, aO, j, aM, aR = [], aH = 2 / aI, aJ;
 			aJ = Math.PI * (3 - F(5) + (parseFloat(aP) ? parseFloat(aP) : 0));
@@ -1534,14 +1603,14 @@
 			C.location = aI
 	}
 	;
-	function y(aN, j, aI) {
+	function y(aN: string, j?: string, aI?: Partial<TagCanvasOptions>): void {
 			var aH, aK, aM = C.getElementById(aN), aJ = ["id", "class", "innerHTML"], aL;
 			if (!aM) {
 					throw 0
 			}
-			if (ai(window.G_vmlCanvasManager)) {
-					aM = window.G_vmlCanvasManager.initElement(aM);
-					this.ie = parseFloat(navigator.appVersion.split("MSIE")[1])
+			if (ai((window as any).G_vmlCanvasManager)) {
+					aM = (window as any).G_vmlCanvasManager.initElement(aM);
+					(this as any).ie = parseFloat(navigator.appVersion.split("MSIE")[1]);
 			}
 			if (aM && (!aM.getContext || !aM.getContext("2d").fillText)) {
 					aK = C.createElement("DIV");
@@ -2264,90 +2333,91 @@
 			this.RotateTag(i, 0, 0, aH, aI, j)
 	}
 	;
-	y.Start = function(aH, i, j) {
-			y.Delete(aH);
-			y.tc[aH] = new y(aH,i,j)
+	y.Start = function(aH: string, i: string, j?: Partial<TagCanvasOptions>): void {
+		y.Delete(aH);
+		y.tc[aH] = new (y as any)(aH, i, j);
+	};
+
+	function ay(i: string, j: string): void {
+		y.tc[j] && (y.tc[j] as any)[i]();
 	}
-	;
-	function ay(i, j) {
-			y.tc[j] && y.tc[j][i]()
-	}
-	y.Linear = function(i, j) {
-			return j / i
-	}
-	;
-	y.Smooth = function(i, j) {
-			return 0.5 - w(j * Math.PI / i) / 2
-	}
-	;
-	y.Pause = function(i) {
-			ay("Pause", i)
-	}
-	;
-	y.Resume = function(i) {
-			ay("Resume", i)
-	}
-	;
-	y.Reload = function(i) {
-			ay("Load", i)
-	}
-	;
-	y.Update = function(i) {
-			ay("Update", i)
-	}
-	;
-	y.SetSpeed = function(j, i) {
-			if (I(i) && y.tc[j] && !isNaN(i[0]) && !isNaN(i[1])) {
-					y.tc[j].SetSpeed(i);
-					return true
+
+	y.Linear = function(i: number, j: number): number {
+		return j / i;
+	};
+
+	y.Smooth = function(i: number, j: number): number {
+		return 0.5 - w(j * Math.PI / i) / 2;
+	};
+
+	y.Pause = function(i: string): void {
+		ay("Pause", i);
+	};
+
+	y.Resume = function(i: string): void {
+		ay("Resume", i);
+	};
+
+	y.Reload = function(i: string): void {
+		ay("Load", i);
+	};
+
+	y.Update = function(i: string): void {
+		ay("Update", i);
+	};
+
+	y.SetSpeed = function(j: string, i: [number, number]): boolean {
+		if (I(i) && y.tc[j] && !isNaN(i[0]) && !isNaN(i[1])) {
+			(y.tc[j] as any).SetSpeed(i);
+			return true;
+		}
+		return false;
+	};
+
+	y.TagToFront = function(j: string, i: any): boolean {
+		if (!I(i)) {
+			return false;
+		}
+		i.lat = i.lng = 0;
+		return y.RotateTag(j, i);
+	};
+
+	y.RotateTag = function(aH: string, i: any): boolean {
+		if (I(i) && y.tc[aH]) {
+			if (isNaN(i.time)) {
+				i.time = 500;
 			}
-			return false
-	}
-	;
-	y.TagToFront = function(j, i) {
-			if (!I(i)) {
-					return false
+			const j = (y.tc[aH] as any).FindTag(i);
+			if (j) {
+				(y.tc[aH] as any).RotateTag(j, i.lat, i.lng, i.time, i.callback, i.active);
+				return true;
 			}
-			i.lat = i.lng = 0;
-			return y.RotateTag(j, i)
-	}
-	;
-	y.RotateTag = function(aH, i) {
-			if (I(i) && y.tc[aH]) {
-					if (isNaN(i.time)) {
-							i.time = 500
-					}
-					var j = y.tc[aH].FindTag(i);
-					if (j) {
-							y.tc[aH].RotateTag(j, i.lat, i.lng, i.time, i.callback, i.active);
-							return true
-					}
+		}
+		return false;
+	};
+
+	y.Delete = function(aI: string): void {
+		let j: number, aH: HTMLElement | null;
+		if (b[aI]) {
+			aH = C.getElementById(aI);
+			if (aH) {
+				for (j = 0; j < b[aI].length; ++j) {
+					a(b[aI][j][0], b[aI][j][1], aH);
+				}
 			}
-			return false
-	}
-	;
-	y.Delete = function(aI) {
-			var j, aH;
-			if (b[aI]) {
-					aH = C.getElementById(aI);
-					if (aH) {
-							for (j = 0; j < b[aI].length; ++j) {
-									a(b[aI][j][0], b[aI][j][1], aH)
-							}
-					}
-			}
-			delete b[aI];
-			delete y.tc[aI]
-	}
-	;
-	y.NextFrameRAF = function() {
-			requestAnimationFrame(E)
-	}
-	;
-	y.NextFrameTimeout = function(i) {
-			setTimeout(O, i)
-	}
-	;
+		}
+		delete b[aI];
+		delete y.tc[aI];
+	};
+
+	y.NextFrameRAF = function(): void {
+		requestAnimationFrame(E);
+	};
+
+	y.NextFrameTimeout = function(i: number): void {
+		setTimeout(O, i);
+	};
+
 	y.tc = {};
 	y.options = {
 			z1: 20000,
@@ -2448,11 +2518,16 @@
 			outlineDashSpeed: 1
 	};
 	for (M in y.options) {
-			y[M] = y.options[M]
+			(y as any)[M] = y.options[M as keyof typeof y.options];
 	}
-	window.TagCanvas = y;
-	ad("load", function() {
-			y.loaded = 1
-	}, window)
-}
-)();
+
+	// 导出 TagCanvas
+	export const TagCanvas = y as TagCanvasInstance;
+
+	// 为了向后兼容，也挂载到 window 对象
+	if (typeof window !== 'undefined') {
+		(window as any).TagCanvas = y;
+		ad("load", function() {
+			y.loaded = 1;
+		}, window);
+	}

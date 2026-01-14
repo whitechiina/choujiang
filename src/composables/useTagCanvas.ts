@@ -4,6 +4,7 @@
  */
 
 import { TAG_CANVAS_CONFIG, INIT_DELAY } from '@/constants';
+import { TagCanvas } from '@/lib/tagcanvas';
 
 /**
  * TagCanvas 配置选项
@@ -92,13 +93,13 @@ export function useTagCanvas() {
       
       createCanvas();
       
-      if (!window.TagCanvas) {
+      if (!TagCanvas) {
         console.error('TagCanvas library not loaded');
         return;
       }
       
       try {
-        window.TagCanvas.Start(TAG_CANVAS_CONFIG.CANVAS_ID, TAG_CANVAS_CONFIG.TAGS_ID, {
+        TagCanvas.Start(TAG_CANVAS_CONFIG.CANVAS_ID, TAG_CANVAS_CONFIG.TAGS_ID, {
           textColour: TAG_CANVAS_CONFIG.TEXT_COLOR,
           initial: getNormalSpeed(),
           dragControl: 1,
@@ -136,13 +137,13 @@ export function useTagCanvas() {
    * 重载 TagCanvas
    */
   const reloadTagCanvas = (): void => {
-    if (!window.TagCanvas) {
+    if (!TagCanvas) {
       console.warn('TagCanvas library not loaded, cannot reload');
       return;
     }
     
     try {
-      window.TagCanvas.Reload(TAG_CANVAS_CONFIG.CANVAS_ID);
+      TagCanvas.Reload(TAG_CANVAS_CONFIG.CANVAS_ID);
     } catch (error) {
       console.error('TagCanvas reload error:', error);
       // 如果 reload 失败，重新初始化
@@ -160,13 +161,13 @@ export function useTagCanvas() {
    * 设置 TagCanvas 速度
    */
   const setSpeed = (speed: [number, number]): void => {
-    if (!window.TagCanvas) {
+    if (!TagCanvas) {
       console.warn('TagCanvas library not loaded, cannot set speed');
       return;
     }
     
     try {
-      window.TagCanvas.SetSpeed(TAG_CANVAS_CONFIG.CANVAS_ID, speed);
+      TagCanvas.SetSpeed(TAG_CANVAS_CONFIG.CANVAS_ID, speed);
     } catch (error) {
       console.error('Failed to set TagCanvas speed:', error);
     }

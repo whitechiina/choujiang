@@ -5,7 +5,7 @@ import { createPinia } from 'pinia';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import '@/assets/style/index.css';
-import '@/assets/lib/tagcanvas.js';
+import '@/lib/tagcanvas';
 
 const app = createApp(App);
 

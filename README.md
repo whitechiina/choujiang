@@ -249,10 +249,10 @@ AnnualRaffle/
 │   │   ├── begin.mp3    # 音频文件
 │   │   ├── bg.jpg       # 背景图片
 │   │   ├── bg.mp3       # 背景音频
-│   │   ├── lib/         # 第三方库
-│   │   │   ├── tagcanvas.js  # TagCanvas 3D标签云库
-│   │   │   └── zepto.js      # Zepto 轻量级库
 │   │   └── style/       # 样式文件
+│   ├── lib/             # 第三方库
+│   │   ├── tagcanvas.ts  # TagCanvas 3D标签云库 (TypeScript)
+│   │   └── tagcanvas.types.ts  # TagCanvas 类型定义
 │   ├── composables/     # 组合式函数（Composables）
 │   │   ├── useLottery.ts     # 抽奖业务逻辑
 │   │   ├── useTagCanvas.ts   # TagCanvas 管理逻辑
