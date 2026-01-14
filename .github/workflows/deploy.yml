@@ -48,6 +48,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        
+      - name: Create user.ts for build
+        run: cp src/config/user.example.ts src/config/user.ts
 
       - name: Build
         run: pnpm build
