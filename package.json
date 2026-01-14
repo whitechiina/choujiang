@@ -2,6 +2,11 @@
   "name": "AnnualRaffle",
   "author": "huyikai",
   "description": "Annual Raffle",
+  "homepage": "https://github.com/huyikai/AnnualRaffle",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huyikai/AnnualRaffle.git"
+  },
   "keywords": [
     "Annual Raffle",
     "Raffle"
