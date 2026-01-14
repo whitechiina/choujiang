@@ -31,7 +31,7 @@
             <img
               v-if="item.key"
               :src="`user/${item.key}.jpg`"
-              @error="(e) => { const img = e.target as HTMLImageElement; if (img && img.src !== '/default-avatar.png') img.src = '/default-avatar.png'; }"
+              @error="(e) => { const img = e.target as HTMLImageElement; if (img && img.src !== defaultAvatarUrl) img.src = defaultAvatarUrl; }"
               class="object-contain rounded-full"
               :width="50"
               :height="50"
@@ -56,7 +56,7 @@
             <img
               v-if="item"
               :src="`user/${item}.jpg`"
-              @error="(e) => { const img = e.target as HTMLImageElement; if (img && img.src !== '/default-avatar.png') img.src = '/default-avatar.png'; }"
+              @error="(e) => { const img = e.target as HTMLImageElement; if (img && img.src !== defaultAvatarUrl) img.src = defaultAvatarUrl; }"
               class="block object-contain w-[125px] h-[125px]"
               draggable="false"
               @contextmenu.prevent
@@ -113,6 +113,9 @@ const store = useLotteryStore();
 const { startTagCanvas, reloadTagCanvas, handleResize, initTagCanvas } = useTagCanvas();
 const { running, showRes, resArr, category, toggleDraw, stopDraw, closeResult } = useLottery(excludedUsers);
 const { enableAudio } = useAudio();
+
+// 默认头像路径，使用 BASE_URL 确保在不同部署环境下都能正确访问
+const defaultAvatarUrl = import.meta.env.BASE_URL + 'default-avatar.png';
 
 const showConfig = ref(false);
 const showResult = ref(false);
