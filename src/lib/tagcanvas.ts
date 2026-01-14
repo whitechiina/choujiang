@@ -538,7 +538,7 @@ const m: Record<string, string> = {
 					}
 			}
 			X(a6, this.font, aU, this.strings, aH, j, 0, 0, [], this.maxWidth, this.stringWidths, this.align);
-			if (this.image) {
+			if (this.image && this.image.complete && this.image.naturalWidth > 0 && this.image.naturalHeight > 0) {
 					a6.drawImage(this.image, aM, aK, aO, aW)
 			}
 			if (aR) {
@@ -742,6 +742,15 @@ const m: Record<string, string> = {
 					return ad("load", function() {
 							aw(aL, aH, aP, aK)
 					}, aL)
+			}
+			// 检查图像是否加载成功（避免 broken 状态的图像）
+			if (aH.naturalWidth === 0 || aH.naturalHeight === 0) {
+					// 图像加载失败，清除图像引用
+					if (aP) {
+							aP.image = null;
+							aP.fimage = null;
+					}
+					return;
 			}
 			aH.width = aH.width;
 			aH.height = aH.height;
@@ -1781,6 +1790,13 @@ const m: Record<string, string> = {
 					aO = aL.getElementsByTagName("img");
 					if (aO.length) {
 							aJ = new Image;
+							// 添加错误处理，当图像加载失败时清除图像引用
+							aJ.onerror = function() {
+									if (aP) {
+											aP.image = null;
+											aP.fimage = null;
+									}
+							};
 							aJ.src = aO[0].src;
 							if (!this.imageMode) {
 									aP = new e(this,"",aL,j,0,0);
