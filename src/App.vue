@@ -30,8 +30,8 @@
           >
             <img
               v-if="item.key"
-              :src="`user/${item.key}.jpg`"
-              @error="(e) => { const img = e.target as HTMLImageElement; if (img && img.src !== defaultAvatarUrl) img.src = defaultAvatarUrl; }"
+              :src="getUserAvatarUrl(item.key)"
+              @error="handleAvatarError"
               class="object-contain rounded-full"
               :width="50"
               :height="50"
@@ -55,8 +55,8 @@
           >
             <img
               v-if="item"
-              :src="`user/${item}.jpg`"
-              @error="(e) => { const img = e.target as HTMLImageElement; if (img && img.src !== defaultAvatarUrl) img.src = defaultAvatarUrl; }"
+              :src="getUserAvatarUrl(item)"
+              @error="handleAvatarError"
               class="block object-contain w-[125px] h-[125px]"
               draggable="false"
               @contextmenu.prevent
@@ -116,9 +116,23 @@ const { enableAudio } = useAudio();
 
 // 默认头像路径，使用 BASE_URL 确保在不同部署环境下都能正确访问
 // BASE_URL 可能是 '/' 或 '/AnnualRaffle'，需要确保路径正确拼接
-const defaultAvatarUrl = (import.meta.env.BASE_URL.endsWith('/') 
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') 
   ? import.meta.env.BASE_URL 
-  : import.meta.env.BASE_URL + '/') + 'default-avatar.png';
+  : import.meta.env.BASE_URL + '/';
+const defaultAvatarUrl = baseUrl + 'default-avatar.png';
+
+// 获取用户头像 URL
+const getUserAvatarUrl = (userId: number | string): string => {
+  return `${baseUrl}user/${userId}.jpg`;
+};
+
+// 处理头像加载错误
+const handleAvatarError = (event: Event): void => {
+  const img = event.target as HTMLImageElement;
+  if (img && img.src !== defaultAvatarUrl) {
+    img.src = defaultAvatarUrl;
+  }
+};
 
 const showConfig = ref(false);
 const showResult = ref(false);
