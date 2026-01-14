@@ -102,8 +102,8 @@ export function useTagCanvas() {
         TagCanvas.Start(TAG_CANVAS_CONFIG.CANVAS_ID, TAG_CANVAS_CONFIG.TAGS_ID, {
           textColour: TAG_CANVAS_CONFIG.TEXT_COLOR,
           initial: getNormalSpeed(),
-          dragControl: 1,
-          dragThreshold: false,
+          dragControl: true,
+          dragThreshold: 0,
           textHeight: TAG_CANVAS_CONFIG.TEXT_HEIGHT,
           noSelect: true,
           wheelZoom: false,
@@ -122,7 +122,7 @@ export function useTagCanvas() {
           radiusZ: TAG_CANVAS_CONFIG.RADIUS_Z,
           offsetY: TAG_CANVAS_CONFIG.OFFSET_Y,
           minBrightness: TAG_CANVAS_CONFIG.MIN_BRIGHTNESS,
-          lock: true
+          lock: null
         });
       } catch (error) {
         console.error('TagCanvas initialization error:', error);
