@@ -31,3 +31,6 @@ public/user/*.jpg
 public/user/*.png
 public/user/*.JPG
 public/user/*.PNG
+
+scripts/input/*
+scripts/output/*

@@ -209,6 +209,19 @@ export const LOTTERY_ITEMS: LotteryItem[] = [
 - **配置、名单、结果、音频设置**：存储在 localStorage 中
 - **照片文件**：存放在 `public/user/` 目录中，照片元数据存储在 IndexedDB 中
 
+### 批量头像图片处理脚本（可选）
+
+项目提供了一个位于 `scripts/` 目录下的批量头像图片处理脚本，用于将原始员工照片统一为适合抽奖展示的头像格式：
+
+- **用途**：批量统一头像的尺寸（默认 160×160）、背景色和格式（默认 JPG），生成后的文件可直接放入 `public/user/` 目录按 `{用户key}.jpg` / `{用户key}.png` 使用。
+- **使用方式（简要）**：
+  - 将原始图片放入 `scripts/input/` 目录。
+  - 运行命令：`pnpm run process-images`（默认使用 AI 增强模式处理）。
+  - 在 `scripts/output/` 目录中查看并将生成的头像拷贝到 `public/user/`。
+- **特性概览**：支持快速模式与 AI 增强模式、批量处理、统一尺寸/格式/背景色等。
+
+详细配置（环境变量、默认背景色、AI 模式说明等）请参考脚本自己的文档：`[scripts/README.md](scripts/README.md)`。
+
 ## 开发
 
 ### 代码检查
