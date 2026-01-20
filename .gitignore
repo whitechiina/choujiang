@@ -27,10 +27,10 @@ test.js
 src/config/user.ts
 
 # 用户照片目录（包含真实照片）
-public/user/*.jpg
-public/user/*.png
-public/user/*.JPG
-public/user/*.PNG
+# public/user/*.jpg
+# public/user/*.png
+# public/user/*.JPG
+# public/user/*.PNG
 
-scripts/input/*
-scripts/output/*
+# scripts/input/*
+# scripts/output/*
