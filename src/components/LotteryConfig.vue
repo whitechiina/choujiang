@@ -51,7 +51,7 @@
               placeholder="请输入数量"
             ></el-input>
           </el-form-item>
-          <el-form-item :label="`${newitem.name}预设名单`" class="preset-item">
+          <!-- <el-form-item :label="`${newitem.name}预设名单`" class="preset-item">
             <div class="flex items-center gap-2">
               <el-switch
                 v-model="presetEnabled[newitem.key]"
@@ -66,7 +66,7 @@
               ></el-input>
               <span v-else class="text-gray-400 text-xs">未启用</span>
             </div>
-          </el-form-item>
+          </el-form-item> -->
         </template>
       </el-form>
 

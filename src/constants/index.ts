@@ -10,21 +10,21 @@ export const TAG_CANVAS_CONFIG = {
   /** 正常速度 */
   NORMAL_SPEED: [0.07, 0] as [number, number],
   /** 抽奖速度 */
-  DRAW_SPEED: [5, 0] as [number, number],
+  DRAW_SPEED: [2, 0] as [number, number],
   /** 文本颜色 */
   TEXT_COLOR: '#fedaa1',
   /** 文本高度 */
-  TEXT_HEIGHT: 12,
+  TEXT_HEIGHT: 8,
   /** 图片内边距 */
   IMAGE_PADDING: 5,
   /** 深度 */
   DEPTH: 0.8,
   /** X轴半径 */
-  RADIUS_X: 1.2,
+  RADIUS_X: 1.4,
   /** Y轴半径 */
   RADIUS_Y: 0.75,
   /** Z轴半径 */
-  RADIUS_Z: 1.2,
+  RADIUS_Z: 1.4,
   /** Y轴偏移 */
   OFFSET_Y: -80,
   /** 最小亮度 */
@@ -42,13 +42,13 @@ export const TAG_CANVAS_CONFIG = {
  */
 export const FONT_SIZE_CONFIG = {
   /** 默认字体大小 */
-  DEFAULT: '30px',
+  DEFAULT: '20px',
   /** 小于100时的字体大小 */
-  SMALL: '100px',
+  SMALL: '20px',
   /** 小于1000时的字体大小 */
-  MEDIUM: '80px',
+  MEDIUM: '20px',
   /** 小于10000时的字体大小 */
-  LARGE: '60px',
+  LARGE: '20px',
   /** 阈值 */
   THRESHOLD_100: 100,
   THRESHOLD_1000: 1000,
@@ -86,7 +86,7 @@ export const LOTTERY_MODE = {
  */
 export const DEFAULT_CONFIG = {
   /** 默认奖项 */
-  DEFAULT_CATEGORY: 'luckyFirst',
+  DEFAULT_CATEGORY: 'firstPrize',
   /** 默认数量 */
   DEFAULT_QTY: 1,
   /** 默认模式 */

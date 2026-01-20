@@ -33,8 +33,8 @@
               :src="getUserAvatarUrl(item.key)"
               @error="handleAvatarError"
               class="object-contain rounded-full"
-              :width="50"
-              :height="50"
+              :width="30"
+              :height="30"
             />
             <span>{{ item.name }}</span>
           </a>
@@ -42,13 +42,13 @@
       </ul>
     </div>
     <transition name="bounce">
-      <div id="resbox" v-show="showRes" class="absolute text-center" style="z-index: 10001; top: 50%; left: 50%; width: 1280px; transform: translate(-50%, -50%);">
-        <p @click="showRes = false" class="text-red-500 text-[50px] leading-[120px] font-bold">{{ categoryName }}抽奖结果：</p>
+      <div id="resbox" v-show="showRes" class="absolute text-center" style="z-index: 10001; top: 50%; left: 50%; height: 90vh; transform: translate(-50%, -50%); overflow-y: scroll">
+        <p @click="showRes = false" style="color: #fff;font-weight: 900;" class="text-red-500 text-[50px] leading-[120px] font-bold">{{ categoryName }}抽奖结果({{ resArr.length }}个)</p>
         <div class="container flex justify-center items-center flex-wrap gap-2.5 mx-auto" :style="`width: calc(170px * 5 + 40px);`">
           <div
             v-for="item in resArr"
             :key="item"
-            class="itemres bg-white p-2.5 rounded-lg font-bold cursor-pointer flex flex-col items-center justify-center relative gap-2.5"
+            class="itemres bg-white p-3 rounded-lg font-bold cursor-pointer flex flex-col items-center justify-center relative gap-2.5"
             :style="resCardStyle"
             :data-id="item"
             @click="showRes = false"
@@ -57,14 +57,25 @@
               v-if="item"
               :src="getUserAvatarUrl(item)"
               @error="handleAvatarError"
-              class="block object-contain w-[125px] h-[125px]"
+              class="block object-contain w-[50px] h-[50px]"
               draggable="false"
               @contextmenu.prevent
             />
-            <span class="resname text-2xl leading-6 text-[#3d3d3d] text-center">
+            <span class="resname text-xl leading-6 text-[#3d3d3d] text-center">
               {{ store.list.find((d) => d.key === item)?.name }}
             </span>
           </div>
+        </div>
+
+            
+        <div style="margin-top: 50px">
+          <el-button
+             v-if="showRes"
+            class="btn-sure"
+            type="primary"
+            @click="showRes = false"
+            >{{ '确定' }}</el-button
+          >
         </div>
       </div>
     </transition>
@@ -119,7 +130,8 @@ const { enableAudio } = useAudio();
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') 
   ? import.meta.env.BASE_URL 
   : import.meta.env.BASE_URL + '/';
-const defaultAvatarUrl = baseUrl + 'default-avatar.png';
+// const defaultAvatarUrl = baseUrl + 'default-avatar.png';
+const defaultAvatarUrl = 'https://imgs.agrimedia.cn/logo.png';
 
 // 设置全局变量，供 TagCanvas 使用
 (window as any).__defaultAvatarUrl = defaultAvatarUrl;
@@ -143,6 +155,7 @@ const showResult = ref(false);
 const resCardStyle = computed(() => {
   const style: { fontSize: string } = { fontSize: FONT_SIZE_CONFIG.DEFAULT };
   const number = store.config.number;
+  console.log(FONT_SIZE_CONFIG.THRESHOLD_100, number);
   if (number && number < FONT_SIZE_CONFIG.THRESHOLD_100) {
     style.fontSize = FONT_SIZE_CONFIG.SMALL;
   } else if (number && number < FONT_SIZE_CONFIG.THRESHOLD_1000) {
@@ -389,5 +402,13 @@ const closeRes = () => {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+}
+
+.btn-sure {
+  color: #fff !important;
+  width: 150px !important;
+  background-color: #e23b32 !important;
+  border-color: #e23b32 !important;
+  font-size: 18px !important;
 }
 </style>
