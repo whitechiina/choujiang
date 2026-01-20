@@ -1,6 +1,6 @@
 /*
  * @LastEditors: whitechiina 1293616053@qq.com
- * @LastEditTime: 2026-01-20 17:20:36
+ * @LastEditTime: 2026-01-20 18:40:57
  */
 // 白马用户
 
@@ -24,7 +24,7 @@ export interface UserItem {
  * 用户列表示例数据
  * 包含假数据用于演示和测试
  */
-export const user: UserItem[] = Array.from({ length: 500 }, (_, i) => ({
+export const users: UserItem[] = Array.from({ length: 500 }, (_, i) => ({
   key: (i + 1).toString().padStart(5, '0'),
   name: `白马N0.`+(i + 1).toString().padStart(5, '0')
 }));
