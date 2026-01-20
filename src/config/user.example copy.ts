@@ -1,9 +1,3 @@
-/*
- * @LastEditors: whitechiina 1293616053@qq.com
- * @LastEditTime: 2026-01-20 18:44:37
- */
-// 白马用户
-
 /**
  * 用户数据示例文件
  * 
@@ -16,7 +10,7 @@
  */
 
 export interface UserItem {
-  key: string;
+  key: number;
   name: string;
 }
 
@@ -24,18 +18,25 @@ export interface UserItem {
  * 用户列表示例数据
  * 包含假数据用于演示和测试
  */
-export const users: UserItem[] = Array.from({ length: 500 }, (_, i) => ({
-  key: (i + 1).toString().padStart(5, '0'),
-  name: `白马N0.`+(i + 1).toString().padStart(5, '0')
-}));
-
+export const user: UserItem[] = [
+  ...[
+    { key: 1001, name: '张三' },
+    { key: 1002, name: '李四' },
+    { key: 1003, name: '王五' },
+    { key: 1004, name: '赵六' },
+    { key: 1005, name: '钱七' },
+    { key: 1006, name: '孙八' },
+    { key: 1007, name: '周九' },
+    { key: 1008, name: '吴十' }
+  ]
+];
 
 /**
  * 排除抽奖的用户列表（示例，适用于所有奖项）
  * 这些用户将不会参与任何奖项的抽奖
  */
 export const excludedUsers: UserItem[] = [
-//   { key: 1001, name: '张三' },
-//   { key: 1002, name: '李四' },
-//   { key: 1003, name: '王五' }
+  { key: 1001, name: '张三' },
+  { key: 1002, name: '李四' },
+  { key: 1003, name: '王五' }
 ];

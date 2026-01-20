@@ -17,7 +17,7 @@ let user: UserItem[];
 let excludedUsers: UserItem[];
 
 try {
-  const userModule = await import('./users.ts');
+  const userModule = await import('./user');
   user = userModule.user;
   excludedUsers = userModule.excludedUsers || exampleExcludedUsers;
 } catch (error) {
