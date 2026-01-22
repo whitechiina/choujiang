@@ -8,12 +8,14 @@
     <template #header>
       <div class="dialog-title">
         <span class="text-2xl font-bold">抽奖结果</span>
+        <span class="text-sm text-gray-500 ml-2.5">(点击号码可以删除)</span>
       </div>
     </template>
     <div
       v-for="(item, index) in resultList"
       :key="index"
       class="listrow flex leading-8 mb-4"
+      @click="(event) => deleteRes(event, item)"
     >
       <span class="name w-[100px] font-bold">
         {{ item.name }}
@@ -23,7 +25,7 @@
           暂未抽奖
         </span>
         <span
-          class="card inline-block px-1.5 leading-8 text-center text-lg font-bold rounded border border-gray-300 bg-gray-100 relative cursor-pointer"
+          class="card inline-block px-1.5 leading-8 text-center text-lg font-bold rounded border border-gray-300 bg-gray-100 relative cursor-pointer hover:before:content-['删除'] hover:before:w-full hover:before:h-full hover:before:bg-gray-300 hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:text-red-500"
           v-for="(data, j) in item.value"
           :key="j"
           :data-res="data"
@@ -117,10 +119,14 @@ const deleteRes = (event: MouseEvent, row: ResultListItem) => {
   })
     .then(() => {
       if (Index) {
+        console.log(Index)
         const newResult = { ...result.value };
+        console.log(newResult)
+
         newResult[row.label] = result.value[row.label].filter(
-          item => item !== Number(Index)
+          item => Number(item) !== Number(Index)
         );
+
         store.setResult(newResult);
         ElMessage({
           type: 'success',
